@@ -15,12 +15,17 @@
   <div class="landing-brand">Watchlog<span class="dot">.</span></div>
   <p class="landing-sub">A private, temporary viewer for your anime watch history.</p>
 
-  <form id="upload-form" class="drop" id="drop">
-    <input id="file-input" type="file" accept=".json,.js,application/json,text/javascript" hidden />
+  <form id="upload-form" class="drop">
+    <input id="file-input" type="file" accept=".json,.js" multiple hidden />
+    <input id="folder-input" type="file" hidden webkitdirectory directory />
     <div class="drop-inner" id="drop-inner">
       <div class="drop-icon">↑</div>
-      <div class="drop-title">Drop your export here</div>
-      <div class="drop-hint">or <span class="drop-browse">browse</span> — accepts a <code>data.js</code> or <code>.json</code> export</div>
+      <div class="drop-title">Drop your CrunchyExporter <code>data</code> folder</div>
+      <div class="drop-hint">
+        <span class="drop-browse" data-pick="files">choose files</span> ·
+        <span class="drop-browse" data-pick="folder">choose folder</span>
+        — or just drop <code>history.json</code>
+      </div>
       <div class="drop-file" id="drop-file"></div>
     </div>
     <button type="submit" class="drop-submit" id="submit-btn" disabled>Upload &amp; view</button>
@@ -28,6 +33,7 @@
   </form>
 
   <ul class="landing-notes">
+    <li>Works with exports from <a href="https://github.com/ruflas/CrunchyExporter" target="_blank" rel="noopener">CrunchyExporter</a> — drop the whole <code>data</code> folder or just its <code>history.json</code>. Other files (<code>animelist.xml</code>, <code>export_log.json</code>) are ignored.</li>
     <li id="retention-note">Uploaded files are automatically deleted after a short time. Once that window passes, the link stops working and you have to upload again.</li>
     <li>Everything is processed on the server only long enough to show it to you — nothing is kept permanently and nothing is shared.</li>
     <li>Cover art is fetched from public anime databases (AniList / MyAnimeList) and cached in your own browser.</li>

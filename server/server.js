@@ -6,7 +6,7 @@ const express = require("express");
 const multer = require("multer");
 
 const config = require("../config");
-const { parseUpload } = require("./lib/parseData");
+const { parseUploads } = require("./lib/parseData");
 const { Store } = require("./lib/store");
 
 const ROOT = path.join(__dirname, "..");
@@ -23,7 +23,7 @@ store.startSweeper();
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: config.maxUploadMb * 1024 * 1024, files: 1 },
+  limits: { fileSize: config.maxUploadMb * 1024 * 1024, files: 20 },
 });
 
 const app = express();
@@ -44,15 +44,17 @@ app.get("/api/config", (_req, res) => {
 });
 
 // ---- Upload handler ----
-app.post("/upload", upload.single("file"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "No file was uploaded." });
+// Accepts one or more files (e.g. a whole CrunchyExporter `data` folder).
+app.post("/upload", upload.array("files", 20), (req, res) => {
+  const files = req.files || [];
+  if (!files.length) {
+    return res.status(400).json({ error: "No files were uploaded." });
   }
   let data;
   try {
-    data = parseUpload(req.file.buffer, req.file.originalname);
+    data = parseUploads(files);
   } catch (e) {
-    return res.status(400).json({ error: e.message || "Could not read the uploaded file." });
+    return res.status(400).json({ error: e.message || "Could not read the uploaded files." });
   }
   const { id, expiresAt } = store.create(data);
   res.json({

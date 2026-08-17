@@ -37,7 +37,8 @@ npm start
 ```
 
 Try it with the bundled example: on the upload page, select
-[`samples/sample-data.json`](samples/sample-data.json).
+[`samples/history.sample.json`](samples/history.sample.json) (a CrunchyExporter
+export).
 
 ---
 
@@ -81,10 +82,51 @@ docker compose up -d --build
 
 ---
 
-## Export data format
+## Uploading your data
 
-An upload is either a `.json` file or a `data.js` file that assigns a global
-`APP_DATA`. The shape is:
+Watchlog reads exports from
+[**CrunchyExporter**](https://github.com/ruflas/CrunchyExporter). On the upload
+page, drop the whole `data` folder (or just `history.json`). The server converts
+it automatically:
+
+- `history.json` — **required.** The watch history; everything is built from it.
+  Seasons of the same show are merged into one series card, and `seasonCount`
+  reports how many seasons were seen.
+- `export_log.json` — optional; only used as a fallback "generated at" date.
+- `animelist.xml` and anything else — ignored.
+
+The upload accepts one or more files, so a folder drop that also contains
+`animelist.xml` just works. Files are filtered client-side, so only the small
+`.json` files are actually sent.
+
+### CrunchyExporter `history.json` shape
+
+```jsonc
+{
+  "last_sync": "2026-08-16T20:15:00+00:00",
+  "episodes": [
+    {
+      "series_id": "GRMG8ZQZR",
+      "series_title": "Frieren: Beyond Journey's End",
+      "season_number": 1,
+      "episode_number": 28.0,
+      "episode_title": "The Magic of Reproducing an Image",
+      "episode_id": "G1XHJV0V5",
+      "watched_at": "2026-08-16T20:13:00+00:00",
+      "fully_watched": true
+    }
+  ]
+}
+```
+
+See [`samples/history.sample.json`](samples/history.sample.json) for a full
+example to test with.
+
+### Advanced: pre-formatted `APP_DATA`
+
+You can also upload data already in the viewer's internal shape — a `.json`
+file or a `data.js` that assigns a global `APP_DATA`. This is what the server
+produces internally; most people never need it.
 
 ```jsonc
 {
