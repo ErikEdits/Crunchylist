@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Watchlog — Upload your anime history</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/styles.css" />
+</head>
+<body>
+
+<div class="landing">
+  <div class="landing-brand">Watchlog<span class="dot">.</span></div>
+  <p class="landing-sub">A private, temporary viewer for your anime watch history.</p>
+
+  <form id="upload-form" class="drop" id="drop">
+    <input id="file-input" type="file" accept=".json,.js,application/json,text/javascript" hidden />
+    <div class="drop-inner" id="drop-inner">
+      <div class="drop-icon">↑</div>
+      <div class="drop-title">Drop your export here</div>
+      <div class="drop-hint">or <span class="drop-browse">browse</span> — accepts a <code>data.js</code> or <code>.json</code> export</div>
+      <div class="drop-file" id="drop-file"></div>
+    </div>
+    <button type="submit" class="drop-submit" id="submit-btn" disabled>Upload &amp; view</button>
+    <div class="drop-error" id="drop-error"></div>
+  </form>
+
+  <ul class="landing-notes">
+    <li id="retention-note">Uploaded files are automatically deleted after a short time. Once that window passes, the link stops working and you have to upload again.</li>
+    <li>Everything is processed on the server only long enough to show it to you — nothing is kept permanently and nothing is shared.</li>
+    <li>Cover art is fetched from public anime databases (AniList / MyAnimeList) and cached in your own browser.</li>
+  </ul>
+
+  <p class="landing-foot">
+    Open source — <a id="repo-link" href="https://github.com/ErikEdits/Crunchylist" target="_blank" rel="noopener">view the code on GitHub</a>.
+  </p>
+</div>
+
+<script src="/assets/upload.js"></script>
+</body>
+</html>

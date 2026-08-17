@@ -1,0 +1,26 @@
+# systemd unit for running Watchlog as a service.
+#
+# 1. Copy the project to /opt/watchlog (or adjust WorkingDirectory below).
+# 2. Run `npm install --omit=dev` in that directory.
+# 3. Edit the Environment lines (at minimum BASE_URL).
+# 4. Save this file to /etc/systemd/system/watchlog.service, then:
+#      systemctl daemon-reload
+#      systemctl enable --now watchlog
+
+[Unit]
+Description=Watchlog anime watch-history viewer
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/watchlog
+ExecStart=/usr/bin/node server/server.js
+Restart=on-failure
+Environment=NODE_ENV=production
+Environment=BASE_URL=https://watchlog.example.com
+Environment=PORT=3000
+Environment=RETENTION_MINUTES=20
+Environment=MAX_UPLOAD_MB=15
+
+[Install]
+WantedBy=multi-user.target

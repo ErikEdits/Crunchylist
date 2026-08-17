@@ -1,0 +1,17 @@
+{
+  "name": "watchlog",
+  "version": "1.0.0",
+  "description": "A private, self-hostable, temporary viewer for your anime watch history. Upload your export, view it, and it is deleted from the server after a configurable window.",
+  "license": "MIT",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "multer": "^2.0.1"
+  }
+}
