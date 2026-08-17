@@ -1,6 +1,12 @@
 (function () {
   "use strict";
 
+  if (typeof window.APP_DATA === "undefined") {
+    document.body.innerHTML =
+      '<div style="padding:40px;font-family:sans-serif;color:#e9e8e3">No data loaded. Please upload your watch history again.</div>';
+    return;
+  }
+
   const SERIES = APP_DATA.series;
   const HISTORY = APP_DATA.history;
 
@@ -213,7 +219,7 @@
       return;
     }
     el.style.display = "inline";
-    el.textContent = `Lade Cover… ${done}/${total} (API-Limit, kann 1-2 Min. dauern)`;
+    el.textContent = `Loading covers… ${done}/${total} (API limit, may take 1–2 min)`;
   }
 
   function attachLazyImage(container, imgEl, skelEl, fallbackEl, title) {
@@ -264,11 +270,11 @@
   // ---------- Helpers ----------
   function fmtDate(iso) {
     const d = new Date(iso);
-    return d.toLocaleDateString("de-DE", { year: "numeric", month: "short", day: "2-digit" });
+    return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" });
   }
   function fmtDateTime(iso) {
     const d = new Date(iso);
-    return d.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
   }
   function dayKey(iso) {
     return iso.slice(0, 10);
@@ -289,8 +295,29 @@
 
   document.getElementById("stat-series").textContent = SERIES.length;
   document.getElementById("stat-episodes").textContent = HISTORY.filter((h) => h.fw).length;
-  document.getElementById("stat-hours").textContent = totalHours.toLocaleString("de-DE");
+  document.getElementById("stat-hours").textContent = totalHours.toLocaleString("en-US");
   document.getElementById("stat-updated").textContent = fmtDate(APP_DATA.generatedAt);
+
+  // ---------- Expiry countdown ----------
+  // The server injects window.WATCHLOG_EXPIRES_AT (epoch ms). Show how long
+  // this temporary view stays available and swap to a notice when it lapses.
+  (function initExpiry() {
+    const el = document.getElementById("expiry");
+    if (!el || !window.WATCHLOG_EXPIRES_AT) return;
+    function tick() {
+      const ms = window.WATCHLOG_EXPIRES_AT - Date.now();
+      if (ms <= 0) {
+        el.textContent = "Expired — reload to upload again";
+        el.classList.add("expired");
+        return;
+      }
+      const mins = Math.floor(ms / 60000);
+      const secs = Math.floor((ms % 60000) / 1000);
+      el.textContent = `Available for ${mins}:${String(secs).padStart(2, "0")}`;
+      setTimeout(tick, 1000);
+    }
+    tick();
+  })();
 
   // ---------- Watchlist rendering ----------
   const grid = document.getElementById("grid");
@@ -314,10 +341,10 @@
 
   function renderGrid() {
     const list = currentSeriesList();
-    countPill.textContent = list.length + " Anime";
+    countPill.textContent = list.length + " anime";
     grid.innerHTML = "";
     if (!list.length) {
-      grid.innerHTML = '<div class="empty">Keine Treffer.</div>';
+      grid.innerHTML = '<div class="empty">No matches.</div>';
       return;
     }
     const frag = document.createDocumentFragment();
@@ -329,7 +356,7 @@
           <div class="skel"></div>
           <img alt="${escapeHtml(s.title)}" />
           <div class="fallback" style="display:none">${escapeHtml(initials(s.title))}</div>
-          <div class="ep-badge">${s.episodeCount} Ep.</div>
+          <div class="ep-badge">${s.episodeCount} ep.</div>
         </div>
         <div class="card-info">
           <p class="card-title">${escapeHtml(s.title)}</p>
@@ -369,10 +396,10 @@
         <div>
           <h2 class="modal-title">${escapeHtml(s.title)}</h2>
           <div class="modal-stats">
-            Episoden geschaut: <b>${s.episodeCount}</b><br/>
-            Staffeln erkannt: <b>${s.seasonCount || 1}</b><br/>
-            Zuletzt: <b>${fmtDate(s.lastWatched)}</b><br/>
-            Zuerst: <b>${fmtDate(s.firstWatched)}</b>
+            Episodes watched: <b>${s.episodeCount}</b><br/>
+            Seasons detected: <b>${s.seasonCount || 1}</b><br/>
+            Last: <b>${fmtDate(s.lastWatched)}</b><br/>
+            First: <b>${fmtDate(s.firstWatched)}</b>
           </div>
         </div>
       </div>
@@ -386,7 +413,7 @@
       </div>
     `;
     const posterImg = document.getElementById("modal-poster");
-    queueImageFetch(s.title, (url) => {
+    getCover(s.title, (url) => {
       if (url) posterImg.src = url;
     });
     document.getElementById("modal-close-btn").addEventListener("click", closeModal);
@@ -415,7 +442,7 @@
     }
     const list = filteredHistory();
     if (!list.length) {
-      histContainer.innerHTML = '<div class="empty">Keine Treffer.</div>';
+      histContainer.innerHTML = '<div class="empty">No matches.</div>';
       loadMoreBtn.style.display = "none";
       return;
     }
@@ -437,7 +464,7 @@
         <div class="hist-thumb"><img alt=""/></div>
         <div class="hist-text">
           <div class="hist-title">${escapeHtml(e.t)}</div>
-          <div class="hist-sub">S${e.sn ?? "-"}E${e.en}${e.et ? " · " + escapeHtml(e.et) : ""}${e.fw ? "" : " · angebrochen"}</div>
+          <div class="hist-sub">S${e.sn ?? "-"}E${e.en}${e.et ? " · " + escapeHtml(e.et) : ""}${e.fw ? "" : " · partial"}</div>
         </div>
         <div class="hist-time">${fmtDateTime(e.wa)}</div>
       `;

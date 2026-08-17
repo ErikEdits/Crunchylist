@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-08-17T10:00:00.000Z",
+  "series": [
+    {
+      "id": "s1",
+      "title": "Frieren: Beyond Journey's End",
+      "episodeCount": 28,
+      "seasonCount": 1,
+      "firstWatched": "2026-01-05T20:10:00.000Z",
+      "lastWatched": "2026-03-11T22:40:00.000Z"
+    },
+    {
+      "id": "s2",
+      "title": "Re:ZERO -Starting Life in Another World-",
+      "episodeCount": 50,
+      "seasonCount": 2,
+      "firstWatched": "2025-11-02T19:00:00.000Z",
+      "lastWatched": "2026-02-18T23:15:00.000Z"
+    },
+    {
+      "id": "s3",
+      "title": "Jujutsu Kaisen",
+      "episodeCount": 47,
+      "seasonCount": 2,
+      "firstWatched": "2025-09-14T18:30:00.000Z",
+      "lastWatched": "2026-01-27T21:05:00.000Z"
+    }
+  ],
+  "history": [
+    { "sid": "s1", "t": "Frieren: Beyond Journey's End", "sn": 1, "en": 28, "et": "The Magic of Reproducing an Image", "wa": "2026-03-11T22:40:00.000Z", "fw": true },
+    { "sid": "s1", "t": "Frieren: Beyond Journey's End", "sn": 1, "en": 27, "et": "As a Privilege", "wa": "2026-03-11T22:15:00.000Z", "fw": true },
+    { "sid": "s2", "t": "Re:ZERO -Starting Life in Another World-", "sn": 2, "en": 25, "et": "The Value of Life", "wa": "2026-02-18T23:15:00.000Z", "fw": true },
+    { "sid": "s2", "t": "Re:ZERO -Starting Life in Another World-", "sn": 2, "en": 24, "et": "That Feeling of Longing", "wa": "2026-02-18T22:50:00.000Z", "fw": false },
+    { "sid": "s3", "t": "Jujutsu Kaisen", "sn": 2, "en": 23, "et": "Shibuya Incident - Gate, Close", "wa": "2026-01-27T21:05:00.000Z", "fw": true }
+  ]
+}

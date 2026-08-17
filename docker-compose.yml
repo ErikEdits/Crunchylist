@@ -1,0 +1,12 @@
+services:
+  watchlog:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      # Set this to the domain you point at this server.
+      BASE_URL: "http://localhost:3000"
+      PORT: "3000"
+      RETENTION_MINUTES: "20"
+      MAX_UPLOAD_MB: "15"
+    restart: unless-stopped

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,43 +7,45 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="/assets/styles.css" />
+<!--APP_DATA-->
 </head>
 <body>
 
 <header class="top">
   <div class="top-inner">
     <div class="brand-row">
-      <div class="brand">Watchlog<span class="dot">.</span></div>
+      <a class="brand" href="/">Watchlog<span class="dot">.</span></a>
       <div class="ticker">
         <span><b id="stat-series">0</b> Anime</span>
         <span class="sep">/</span>
-        <span><b id="stat-episodes">0</b> Episoden</span>
+        <span><b id="stat-episodes">0</b> Episodes</span>
         <span class="sep">/</span>
-        <span><b id="stat-hours">0</b> Std. geschaut</span>
+        <span><b id="stat-hours">0</b> hrs watched</span>
         <span class="sep">/</span>
-        <span>Stand: <b id="stat-updated">-</b></span>
+        <span>Updated: <b id="stat-updated">-</b></span>
       </div>
+      <span class="expiry-pill" id="expiry"></span>
     </div>
     <div class="tabs">
       <button class="tab-btn active" data-tab="watchlist">Watchlist</button>
-      <button class="tab-btn" data-tab="history">Verlauf</button>
+      <button class="tab-btn" data-tab="history">History</button>
     </div>
   </div>
 </header>
 
 <div class="controls">
   <div class="search-box">
-    <input id="search" type="text" placeholder="Anime suchen..." />
+    <input id="search" type="text" placeholder="Search anime..." />
   </div>
   <select id="sort">
     <option value="title">A–Z</option>
-    <option value="recent">Zuletzt geschaut</option>
-    <option value="episodes">Meiste Episoden</option>
+    <option value="recent">Recently watched</option>
+    <option value="episodes">Most episodes</option>
   </select>
   <span class="count-pill" id="count-pill"></span>
   <span class="count-pill" id="cover-progress" style="display:none"></span>
-  <button class="load-more" id="retry-covers" style="margin:0;padding:8px 14px;font-size:12px;">Fehlende Cover erneut laden</button>
+  <button class="load-more" id="retry-covers" style="margin:0;padding:8px 14px;font-size:12px;">Retry missing covers</button>
 </div>
 
 <main>
@@ -53,7 +55,7 @@
 
   <section id="view-history" class="view">
     <div id="history-list"></div>
-    <button class="load-more" id="load-more">Mehr laden</button>
+    <button class="load-more" id="load-more">Load more</button>
   </section>
 </main>
 
@@ -61,9 +63,8 @@
   <div class="modal" id="modal-body"></div>
 </div>
 
-<footer class="foot">Watchlog — lokal generiert aus deinem Export. Cover-Bilder via Jikan API (MyAnimeList), einmalig geladen &amp; gecacht.</footer>
+<footer class="foot">Watchlog — generated from your upload, kept only temporarily. Cover art via AniList / Jikan (MyAnimeList), fetched once &amp; cached in your browser.</footer>
 
-<script src="data.js"></script>
-<script src="app.js"></script>
+<script src="/assets/app.js"></script>
 </body>
 </html>
