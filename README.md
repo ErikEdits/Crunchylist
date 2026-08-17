@@ -22,6 +22,14 @@ again.
 
 Requires Node.js 18+.
 
+**One click / one command** — use the bundled launchers (they install
+dependencies on first run, start the server, and open your browser):
+
+- **Windows:** double-click `start.bat`
+- **macOS / Linux:** `./start.sh`  (first time: `chmod +x start.sh`)
+
+Or do it manually:
+
 ```bash
 npm install
 npm start
